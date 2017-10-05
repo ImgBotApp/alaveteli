@@ -88,6 +88,11 @@ describe ProAccount do
       expect(subject.active?).to eq(false)
     end
 
+    it 'returns false if there is no customer id' do
+      subject.stripe_customer_id = nil
+      expect(subject.active?).to eq(false)
+    end
+
   end
 
 end
