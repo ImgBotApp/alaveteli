@@ -62,7 +62,6 @@ describe "viewing requests in alaveteli_pro" do
     end
   end
 
-
   context 'the user does not have an active subscription' do
 
     before do
