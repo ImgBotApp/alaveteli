@@ -62,6 +62,25 @@ describe "viewing requests in alaveteli_pro" do
     end
   end
 
+
+  context 'the user does not have an active subscription' do
+
+    before do
+      pro_user.pro_account.update!(stripe_customer_id: nil)
+    end
+
+    it 'does not show the option to extend the embargo' do
+      using_pro_session(pro_user_session) do
+        browse_pro_request(info_request.url_title)
+        expect(page).
+          to have_content("This request is private on Alaveteli until " \
+                          "#{embargo.publish_at.strftime('%d %B %Y')}")
+        expect(page).not_to have_content('Keep private for a further:')
+      end
+    end
+
+  end
+
   it "allows the user to publish a request" do
     using_pro_session(pro_user_session) do
       browse_pro_request(info_request.url_title)
