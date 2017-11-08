@@ -117,6 +117,7 @@ RSpec.configure do |config|
   # than passing them to the test itself.
   config.before(:each) do |example|
     if [:request].include? example.metadata[:type]
+      Rails.application.config.consider_all_requests_local = false
       Rails.application.config.action_dispatch.show_exceptions = true
     end
   end
