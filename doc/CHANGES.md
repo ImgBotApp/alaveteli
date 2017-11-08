@@ -3,6 +3,7 @@
 
 ## Highlighted Features
 
+* Remove rendering of exceptions in admin interface (Gareth Rees)
 * Make the event history table responsive (Miroslav Schlossberg)
 * Fix bug that prevented private requests from being published across the whole
   site once the embargo period had expired (Liz Conlan)
