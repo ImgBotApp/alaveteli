@@ -63,40 +63,7 @@ describe AlaveteliPro::EmbargoExtensionsController do
 
       end
 
-      context 'the embargo is not near expiry' do
-
-        let(:info_request) { FactoryGirl.create(:info_request, user: pro_user) }
-        let(:embargo) do
-          FactoryGirl.create(:embargo, info_request: info_request)
-        end
-
-        it "raises a PermissionDenied error if the owner requests extension" do
-          expect do
-            with_feature_enabled(:alaveteli_pro) do
-              session[:user_id] = pro_user.id
-              post :create,
-                   alaveteli_pro_embargo_extension:
-                     { embargo_id: embargo.id,
-                       extension_duration: "3_months" }
-            end
-          end.to raise_error(ApplicationController::PermissionDenied)
-        end
-
-        it "raises a PermissionDenied error if an admin requests extension" do
-          expect do
-            with_feature_enabled(:alaveteli_pro) do
-              session[:user_id] = admin.id
-              post :create,
-                   alaveteli_pro_embargo_extension:
-                     { embargo_id: embargo.id,
-                       extension_duration: "3_months" }
-            end
-          end.to raise_error(ApplicationController::PermissionDenied)
-        end
-
-      end
-
-      context "because they are an admin" do
+      context "because they are a pro admin" do
         before do
           with_feature_enabled(:alaveteli_pro) do
             session[:user_id] = admin.id
@@ -124,6 +91,7 @@ describe AlaveteliPro::EmbargoExtensionsController do
             to redirect_to show_alaveteli_pro_request_path(
               url_title: info_request.url_title)
         end
+
       end
 
     end
@@ -142,6 +110,39 @@ describe AlaveteliPro::EmbargoExtensionsController do
           end
         end.to raise_error(CanCan::AccessDenied)
       end
+    end
+
+    context 'when the embargo is not near expiry' do
+
+      let(:info_request) { FactoryGirl.create(:info_request, user: pro_user) }
+      let(:embargo) do
+        FactoryGirl.create(:embargo, info_request: info_request)
+      end
+
+      it "raises a PermissionDenied error if the owner requests extension" do
+        expect do
+          with_feature_enabled(:alaveteli_pro) do
+            session[:user_id] = pro_user.id
+            post :create,
+                 alaveteli_pro_embargo_extension:
+                   { embargo_id: embargo.id,
+                     extension_duration: "3_months" }
+          end
+        end.to raise_error(ApplicationController::PermissionDenied)
+      end
+
+      it "raises a PermissionDenied error if an admin requests extension" do
+        expect do
+          with_feature_enabled(:alaveteli_pro) do
+            session[:user_id] = admin.id
+            post :create,
+                 alaveteli_pro_embargo_extension:
+                   { embargo_id: embargo.id,
+                     extension_duration: "3_months" }
+          end
+        end.to raise_error(ApplicationController::PermissionDenied)
+      end
+
     end
 
     context "when the info_request is part of a batch request" do
@@ -180,6 +181,7 @@ describe AlaveteliPro::EmbargoExtensionsController do
                                     "please try again."
       end
     end
+
   end
 
   describe "#create_batch" do
