@@ -34,6 +34,13 @@
                  class="embargo__submit js-embargo-submit">
         </p>
       <% end %>
+    <% else %>
+      <p>
+        <%= _("If you need to keep your request private for longer, you will " \
+              "be able to extend this privacy period on " \
+              "{{embargo_extend_from}}",
+              embargo_extend_from: embargo_extend_from(info_request.embargo)) %>
+      </p>
     <% end %>
     <%= button_to _("Publish request"),
                   alaveteli_pro_embargo_path(info_request.embargo),

@@ -62,6 +62,17 @@ describe "viewing requests in alaveteli_pro" do
       end
     end
 
+    it 'displays a message to say when the embargo can be extended' do
+      using_pro_session(pro_user_session) do
+        expiring_notification = info_request.
+                                  embargo.calculate_expiring_notification_at
+        browse_pro_request(info_request.url_title)
+        expect(page).
+          to have_content("you will be able to extend this privacy period on " \
+                          "#{expiring_notification.strftime('%-d %B %Y')}")
+      end
+    end
+
   end
 
   it "allows the user to publish a request" do
