@@ -141,3 +141,52 @@ body:hover .visually-hidden a, body:hover .visually-hidden input, body:hover .vi
     z-index: 100;
   }
 }
+
+
+//Build our site wrapper, width optional max-width
+@mixin wrapper($max-width: $row-width) {
+  @include grid-row();
+  @include ie8{
+    width: $main_menu-mobile_menu_cutoff;
+  }
+  max-width: $max-width;
+}
+
+
+/* A global 12 column element provides padding for all pages */
+@mixin content() {
+  @include grid-column(12);
+  @include ie8{
+    padding-left: 0.9375em;
+    padding-right: 0.9375em;
+  }
+  @include lte-ie7 {
+    width: 56.125em;
+  }
+}
+
+//
+@mixin status-icon() {
+    background-image: image-url('status/status-sprite.png');
+    background-size: 330px 22px;
+    @media (-webkit-min-device-pixel-ratio: 1.5), (min-resolution: 144dpi) {
+      background-image: image-url('status/status-sprite@2.png');
+    }
+}
+
+// We want to see where links are pointing, but not everywhere
+// so expand links in some places
+
+@mixin expand-links {
+  a {
+    font-weight: 700;
+    text-decoration: none;
+    color: black;
+  }
+  a[href^=http]:after {
+    content:" (" attr(href) ")";
+    font-weight: normal;
+    color: lighten(black, 50%);
+    font-size: 0.875em;
+  }
+}
