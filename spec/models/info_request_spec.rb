@@ -3473,24 +3473,21 @@ describe InfoRequest do
 
     end
 
-    # the expected behaviour is that the embargo is destroyed on the publication
-    # date but the code should still treat the embargo as expiring if it still
-    # exists
     context 'the embargo has already expired' do
 
       let(:embargo) do
         FactoryGirl.create(:expiring_embargo, info_request: info_request)
       end
 
-      it 'returns true on publication day' do
+      it 'returns false on publication day' do
         time_travel_to(embargo.publish_at) do
-          expect(info_request.reload.embargo_expiring?).to be true
+          expect(info_request.reload.embargo_expiring?).to be false
         end
       end
 
-      it 'returns true after publication day' do
+      it 'returns false after publication day' do
         time_travel_to(embargo.publish_at + 1.day) do
-          expect(info_request.reload.embargo_expiring?).to be true
+          expect(info_request.reload.embargo_expiring?).to be false
         end
       end
 
