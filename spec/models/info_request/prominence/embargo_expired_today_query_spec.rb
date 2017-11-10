@@ -6,7 +6,7 @@ describe InfoRequest::Prominence::EmbargoExpiredTodayQuery do
   describe '#call' do
     let(:info_request) { info_request = FactoryGirl.create(:info_request) }
 
-    it 'excludes requests that have an embargo' do
+    it 'excludes requests that are currently under embargo' do
       embargo = FactoryGirl.create(:embargo,
                                    :publish_at => Time.now + 4.days)
 
