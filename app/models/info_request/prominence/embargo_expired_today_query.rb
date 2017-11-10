@@ -15,7 +15,7 @@ class InfoRequest
             'info_request_events.created_at >= ?',
             Time.zone.now.beginning_of_day
           ]).
-          where('info_request_events.event_type' => 'expire_embargo').
+          where(info_request_events: { event_type: 'expire_embargo' }).
           references(:embargoes, :info_request_events)
       end
     end
