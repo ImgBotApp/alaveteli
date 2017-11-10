@@ -180,7 +180,6 @@ RSpec.describe Notification do
 
       end
 
-
       context "and the embargo has been removed" do
         before do
           embargo_expiring_request.embargo.destroy!
