@@ -79,7 +79,7 @@
 # the new version. It is always preferable to upgrade our code.
 source 'https://rubygems.org'
 
-gem 'rails', '4.2.9'
+gem 'rails', '4.2.10'
 
 gem 'pg', '~> 0.18.0', '< 0.19.0'
 
@@ -105,7 +105,6 @@ gem 'iso_country_codes', '~> 0.7.0'
 gem 'mahoro', '~> 0.4'
 gem 'newrelic_rpm'
 gem 'net-http-local', '~> 0.1.0', :platforms => [:ruby_19]
-gem 'net-purge', '~> 0.1.0'
 gem 'nokogiri', '~> 1.6.0', '< 1.7'
 gem 'open4', '~> 1.3.0'
 gem 'rack', '~> 1.6.0'
@@ -120,6 +119,7 @@ gem 'sass', '3.4.21'
 gem 'secure_headers', '~> 3.6.0'
 gem 'statistics2', '~> 0.54'
 gem 'strip_attributes', :git => 'https://github.com/mysociety/strip_attributes.git', :ref => 'c1c14da'
+gem 'stripe', '~> 3.4.1'
 gem 'syslog_protocol', '~> 0.9.0'
 gem 'thin', '~> 1.5.0', '< 1.6.0'
 gem 'vpim', '~> 13.11.11'
@@ -162,6 +162,7 @@ group :test do
     gem 'term-ansicolor', '~> 1.3.0', '< 1.4'
   gem 'capybara', '~> 2.15.0'
   gem 'delorean', '~> 2.1.0'
+  gem 'stripe-ruby-mock', '~> 2.5.0'
   gem 'test_after_commit', '~> 0.4.2'
 end
 

@@ -35,6 +35,8 @@ module AlaveteliConfiguration
       :CONTACT_EMAIL => 'contact@localhost',
       :CONTACT_NAME => 'Alaveteli',
       :SECRET_KEY_BASE => 'this default is insecure as code is open source, please override for live sites in config/general; this will do for local development',
+      :STRIPE_PUBLISHABLE_KEY => '',
+      :STRIPE_SECRET_KEY => '',
       :DEBUG_RECORD_MEMORY => false,
       :DEFAULT_LOCALE => '',
       :DISABLE_EMERGENCY_USER => false,
@@ -113,7 +115,6 @@ module AlaveteliConfiguration
       :USE_GHOSTSCRIPT_COMPRESSION => false,
       :USE_MAILCATCHER_IN_DEVELOPMENT => true,
       :UTILITY_SEARCH_PATH => ["/usr/bin", "/usr/local/bin"],
-      :VARNISH_HOST => '',
       :WORKING_OR_CALENDAR_DAYS => 'working',
       :USE_BULLET_IN_DEVELOPMENT => false,
       :EXTERNAL_REVIEWERS => ''

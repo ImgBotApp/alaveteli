@@ -78,13 +78,7 @@ class RequestController < ApplicationController
   end
 
   def show
-    if !AlaveteliConfiguration::varnish_host.blank?
-      # If varnish is set up to accept PURGEs, then cache for a
-      # long time
-      long_cache
-    else
-      medium_cache
-    end
+    medium_cache
     @locale = AlaveteliLocalization.locale
     AlaveteliLocalization.with_locale(@locale) do
       # Look up by new style text names
@@ -94,6 +88,12 @@ class RequestController < ApplicationController
       if cannot?(:read, @info_request)
         return render_hidden
       end
+
+      # Always show the pro livery if a request is embargoed. This makes it
+      # clear to admins and ex-pro users that the `InfoRequest` is still
+      # private. Users who are not permitted to view the request are redirected
+      # so we don't need to consider the `current_user` here.
+      @in_pro_area = true if @info_request.embargo
 
       set_last_request(@info_request)
 
@@ -1140,8 +1140,7 @@ class RequestController < ApplicationController
     # Pro users should see their embargoed requests in the pro page, so that
     # if other site functions send them to a request page, they end up back in
     # the pro area
-    if feature_enabled?(:alaveteli_pro) && params[:pro] != "1" && \
-       current_user && current_user.is_pro?
+    if feature_enabled?(:alaveteli_pro) && params[:pro] != "1" && current_user
       @info_request = InfoRequest.find_by_url_title!(params[:url_title])
       if @info_request.is_actual_owning_user?(current_user) && @info_request.embargo
         redirect_to show_alaveteli_pro_request_url(

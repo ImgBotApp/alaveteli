@@ -628,18 +628,6 @@ EXCEPTION_NOTIFICATIONS_TO:
 # ---
 MAX_REQUESTS_PER_USER_PER_DAY: 6
 
-# If you're running behind Varnish set this to work out where to send purge
-# requests. Otherwise, don't set it.
-#
-# VARNISH_HOST - String (default: nil)
-#
-# Examples:
-#
-#   VARNISH_HOST: localhost
-#
-# ---
-VARNISH_HOST: null
-
 # Adding a value here will enable Google Analytics on all non-admin pages for
 # non-admin users.
 #
@@ -1136,3 +1124,25 @@ POP_MAILER_PASSWORD: ''
 #
 # ---
 POP_MAILER_ENABLE_SSL: true
+
+# Stripe.com publishable key. Only required for Alaveteli Pro.
+#
+# STRIPE_PUBLISHABLE_KEY - String (default: '')
+#
+# Examples:
+#
+# STRIPE_PUBLISHABLE_KEY: sk_test_UD6BDsARFZIYb8273dbdl
+#
+# ---
+STRIPE_PUBLISHABLE_KEY: ''
+
+# Stripe.com secret key. Only required for Alaveteli Pro.
+#
+# STRIPE_SECRET_KEY - String (default: '')
+#
+# Examples:
+#
+# STRIPE_SECRET_KEY: sk_test_UD6BDsARFZIYb8273dbdl
+#
+# ---
+STRIPE_SECRET_KEY: ''

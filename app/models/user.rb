@@ -39,6 +39,7 @@ require 'digest/sha1'
 
 class User < ActiveRecord::Base
   include AlaveteliFeatures::Helpers
+  include AlaveteliPro::PhaseCounts
   rolify
   strip_attributes :allow_empty => true
 
@@ -46,7 +47,7 @@ class User < ActiveRecord::Base
   attr_accessor :entered_otp_code
 
   has_many :info_requests,
-           -> { order('created_at desc') },
+           -> { order('info_requests.created_at desc') },
            :inverse_of => :user,
            :dependent => :destroy
   has_many :info_request_events,
@@ -134,7 +135,6 @@ class User < ActiveRecord::Base
            :if => Proc.new { |u| u.otp_enabled? && u.require_otp? }
 
   after_initialize :set_defaults
-  after_save :purge_in_cache
   after_update :reindex_referencing_models
 
   acts_as_xapian :texts => [ :name, :about_me ],
@@ -570,7 +570,7 @@ class User < ActiveRecord::Base
 
   def record_bounce(message)
     self.email_bounced_at = Time.zone.now
-    self.email_bounce_message = message
+    self.email_bounce_message = convert_string_to_utf8(message).string
     save!
   end
 
@@ -684,10 +684,6 @@ class User < ActiveRecord::Base
       errors.add(:otp_code, msg)
     end
     self.entered_otp_code = nil
-  end
-
-  def purge_in_cache
-    info_requests.each { |x| x.purge_in_cache } if name_changed?
   end
 
 end

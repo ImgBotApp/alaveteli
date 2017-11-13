@@ -63,7 +63,6 @@ class OutgoingMessage < ActiveRecord::Base
            :dependent => :destroy
 
   after_initialize :set_default_letter
-  after_save :purge_in_cache
   # reindex if body text is edited (e.g. by admin interface)
   after_update :xapian_reindex_after_update
 
@@ -320,10 +319,6 @@ class OutgoingMessage < ActiveRecord::Base
     get_text_for_indexing(strip_salutation=false)
   end
 
-  def purge_in_cache
-    info_request.purge_in_cache
-  end
-
   def xapian_reindex_after_update
     if changes.include?('body')
       info_request_events.each do |event|
@@ -376,6 +371,7 @@ class OutgoingMessage < ActiveRecord::Base
     if info_request
       opts[:url] = request_url(info_request) if info_request.url_title
       opts[:info_request_title] = info_request.title if info_request.title
+      opts[:embargo] = true if info_request.embargo
     end
 
     opts[:public_body_name] =
